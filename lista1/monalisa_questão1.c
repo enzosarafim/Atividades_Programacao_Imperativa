@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <math.h>
-
+//O código ainda está incompleto
 int main(){
     //calculo amor
     int dia1, mes1, ano1, dia2, mes2, ano2, soma_amor;
