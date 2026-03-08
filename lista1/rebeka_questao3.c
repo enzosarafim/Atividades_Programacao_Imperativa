@@ -2,64 +2,98 @@
 
 int main() {
     int total, x, y, z;
-    scanf("%d", &total);
-    scanf("%d", &x);
-    scanf("%d", &y);
-    scanf("%d", &z);
+    scanf("%d %d %d %d", &total, &x, &y, &z);
 
-    // Verificar divisão com total original
-    // A*100 == total*x ? (evitar float)
-    int okOrig = ((total * x) % 100 == 0) && ((total * y) % 100 == 0) && ((total * z) % 100 == 0);
+    // Verificar se a divisão original resulta em inteiros
+    int okOrig = 0;
+    if ((total * x) % 100 == 0 && (total * y) % 100 == 0 && (total * z) % 100 == 0) {
+        okOrig = 1;
+    }
 
-    int A, B, C, sobra, investido, totalFinal;
+    int ok1 = 0;
+    if (((total+1) * x) % 100 == 0 && ((total+1) * y) % 100 == 0 && ((total+1) * z) % 100 == 0) {
+        ok1 = 1;
+    }
 
-    // total original funciona
-    // total+1 funciona E sobra > 1 (investiu 1 real)
-    // total+2 funciona E sobra > 2
-    // total+3 funciona E sobra > 3
+    int ok2 = 0;
+    if (((total+2) * x) % 100 == 0 && ((total+2) * y) % 100 == 0 && ((total+2) * z) % 100 == 0) {
+        ok2 = 1;
+    }
 
-    int ok1 = (((total+1)*x)%100==0) && (((total+1)*y)%100==0) && (((total+1)*z)%100==0);
-    int sobra1 = (ok1) ? ((total+1) - (total+1)*x/100 - (total+1)*y/100 - (total+1)*z/100) : -1;
+    int ok3 = 0;
+    if (((total+3) * x) % 100 == 0 && ((total+3) * y) % 100 == 0 && ((total+3) * z) % 100 == 0) {
+        ok3 = 1;
+    }
 
-    int ok2 = (((total+2)*x)%100==0) && (((total+2)*y)%100==0) && (((total+2)*z)%100==0);
-    int sobra2 = (ok2) ? ((total+2) - (total+2)*x/100 - (total+2)*y/100 - (total+2)*z/100) : -1;
+    // Calcular sobras para cada caso
+    int sobraOrig = 0;
+    if (okOrig) {
+        sobraOrig = total - (total * x / 100) - (total * y / 100) - (total * z / 100);
+    }
 
-    int ok3 = (((total+3)*x)%100==0) && (((total+3)*y)%100==0) && (((total+3)*z)%100==0);
-    int sobra3 = (ok3) ? ((total+3) - (total+3)*x/100 - (total+3)*y/100 - (total+3)*z/100) : -1;
+    int sobra1 = 0;
+    if (ok1) {
+        sobra1 = (total+1) - ((total+1) * x / 100) - ((total+1) * y / 100) - ((total+1) * z / 100);
+    }
 
-    // Determinar cenário
-    // Prioridade: 0 investido, depois 1, 2, 3
-    // Condição: sobra > investido
-    int sobraOrig = (okOrig) ? (total - total*x/100 - total*y/100 - total*z/100) : -1;
+    int sobra2 = 0;
+    if (ok2) {
+        sobra2 = (total+2) - ((total+2) * x / 100) - ((total+2) * y / 100) - ((total+2) * z / 100);
+    }
 
-    // Escolher o melhor cenário (menor investimento que funciona)
-    int cenario; // 0=original ok, 1=+1, 2=+2, 3=+3, -1=impossivel
-    cenario = (okOrig) ? 0 : ((ok1 && sobra1 > 1) ? 1 : ((ok2 && sobra2 > 2) ? 2 : ((ok3 && sobra3 > 3) ? 3 : -1)));
+    int sobra3 = 0;
+    if (ok3) {
+        sobra3 = (total+3) - ((total+3) * x / 100) - ((total+3) * y / 100) - ((total+3) * z / 100);
+    }
 
-    // Porém se okOrig mas sobraOrig < 0... sobra nunca é negativa se porcentagens <= 100%
-    // cenário 0 sempre válido se okOrig
+    // Escolher o cenário (menor investimento que funciona)
+    int cenario = -1;
+    if (okOrig) {
+        cenario = 0;
+    } else if (ok1 && sobra1 > 1) {
+        cenario = 1;
+    } else if (ok2 && sobra2 > 2) {
+        cenario = 2;
+    } else if (ok3 && sobra3 > 3) {
+        cenario = 3;
+    }
 
-    totalFinal = (cenario == 0) ? total : ((cenario == 1) ? total+1 : ((cenario == 2) ? total+2 : ((cenario == 3) ? total+3 : 0)));
-    A = (cenario != -1) ? totalFinal*x/100 : 0;
-    B = (cenario != -1) ? totalFinal*y/100 : 0;
-    C = (cenario != -1) ? totalFinal*z/100 : 0;
-    sobra = (cenario != -1) ? (totalFinal - A - B - C) : 0;
-    investido = (cenario == -1) ? 0 : cenario;
+    // Calcular valores finais com base no cenário
+    int totalFinal = 0;
+    if (cenario == 0) {
+        totalFinal = total;
+    } else if (cenario == 1) {
+        totalFinal = total + 1;
+    } else if (cenario == 2) {
+        totalFinal = total + 2;
+    } else if (cenario == 3) {
+        totalFinal = total + 3;
+    }
 
-    // Saída divisão
-    if (cenario != -1)
+    int A = 0, B = 0, C = 0, sobra = 0;
+    if (cenario != -1) {
+        A = totalFinal * x / 100;
+        B = totalFinal * y / 100;
+        C = totalFinal * z / 100;
+        sobra = totalFinal - A - B - C;
+    }
+
+    // Imprimir resultado da divisão
+    if (cenario != -1) {
         printf("Cada homem ficou com %d, %d e %d reais, respectivamente\n", A, B, C);
-    else
+    } else {
         printf("Nao foi dessa vez que Rebeka pode ajudar...\n");
+    }
 
-    // Dinheiro de Rebeka até agora
-    // Se cenario 0: sobra
-    // Se 1,2,3: sobra - investido 
-    int dinheiro_rebeka = (cenario == 0) ? sobraOrig : ((cenario == -1) ? 0 : (sobra - investido));
+    // Calcular dinheiro de Rebeka
+    int dinheiro_rebeka = 0;
+    if (cenario == -1) {
+        dinheiro_rebeka = 3;
+    } else {
+        dinheiro_rebeka = 3 - cenario + sobra;
+    }
 
-    dinheiro_rebeka = (cenario == -1) ? 3 : (3 - investido + sobra);
-
-    // Prova de contas
+    // Prova com 2 reais (letras)
     if (cenario == 2) {
         char c1, c2, c3;
         scanf(" %c %c %c", &c1, &c2, &c3);
@@ -69,21 +103,28 @@ int main() {
         printf("%d\n", v1 + v2 + v3);
     }
 
+    // Prova com 3 reais (idades)
     if (cenario == 3) {
         int i1, i2, i3;
         scanf("%d %d %d", &i1, &i2, &i3);
-        // se pelo menos uma divisível por 3, retorna soma de parcelas do 3
-        int temDiv = (i1%3==0) || (i2%3==0) || (i3%3==0);
-        int parcelas = (temDiv) ? ((i1/3) + (i2/3) + (i3/3)) : 0;
-        if (temDiv)
+
+        int temDiv = 0;
+        if (i1 % 3 == 0 || i2 % 3 == 0 || i3 % 3 == 0) {
+            temDiv = 1;
+        }
+
+        if (temDiv) {
+            int parcelas = (i1 / 3) + (i2 / 3) + (i3 / 3);
             printf("%d\n", parcelas);
+        }
     }
 
     // Resultado final
-    if (dinheiro_rebeka >= 7)
+    if (dinheiro_rebeka >= 7) {
         printf("Ela conseguiu! Rebeka voltou para casa e apanhou da mae por sumir noite passada!\n");
-    else
+    } else {
         printf("E parece que Rebeka vai ter que voltar andando...\n");
+    }
 
     return 0;
 }
