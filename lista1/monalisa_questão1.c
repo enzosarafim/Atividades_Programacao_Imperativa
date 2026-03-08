@@ -80,37 +80,37 @@ int main(){
     tipo_cor = ((dia1 * dia1)+ (dia2 * dia2)+ (mes1 * mes1)+ (mes2 * mes2)+ (ano1 * ano1)+ (ano2 * ano2)) % 11;
     switch(tipo_cor){
         case 0:
-        puts("Cor: Cinza");
+        puts("Cor: Cinza.");
         break;
         case 1:
-        puts("Cor: Vermelho");
+        puts("Cor: Vermelho.");
         break;
         case 2:
-        puts("Cor: Laranja");
+        puts("Cor: Laranja.");
         break;
         case 3:
-        puts("Cor: Amarelo");
+        puts("Cor: Amarelo.");
         break;
         case 4:
-        puts("Cor: Verde");
+        puts("Cor: Verde.");
         break;
         case 5:
-        puts("Cor: Azul");
+        puts("Cor: Azul.");
         break;
         case 6:
-        puts("Cor: Roxo");
+        puts("Cor: Roxo.");
         break;
         case 7:
-        puts("Cor: Marrom");
+        puts("Cor: Marrom.");
         break;
         case 8:
-        puts("Cor: Rosa");
+        puts("Cor: Rosa.");
         break;
         case 9:
-        puts("Cor: Preto");
+        puts("Cor: Preto.");
         break;
         case 10:
-        puts("Cor: Branco");
+        puts("Cor: Branco.");
         break;
     }
     return 0;
