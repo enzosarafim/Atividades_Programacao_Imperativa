@@ -1,121 +1,95 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+// foi utilizada IA para comentar o código
+
 int main(){
     int x, y, c;
     scanf("%d %d %d", &x, &y, &c);
-    int quadrante1 = 0;
-    if (c == 1){
-        quadrante1 = 1
-    }
-    int quadrante2 = 0;
-    if (c == 2){
-        quadrante2 = 1
-    }
-    int quadrante3 = 0;
-    if (c == 3){
-        quadrante3 = 1
-    }
-    int quadrante4 = 0;
-    if (c == 1){
-        quadrante1 = 1
-    }
-    int quadrante_atual;
-    if(x > 0 && y > 0){
-        quadrante_atual = 1
-    } else if(x < 0 && y > 0){
-        quadrante_atual = 2
-    } else if(x < 0 && y < 0){
-        quadrante_atual = 3
-    } else if(x > 0 && y < 0){
-        quadrante_atual = 4
+
+    // Determinar quadrante atual
+    int quadrante_atual = 0;
+    if (x > 0 && y > 0){
+        quadrante_atual = 1;
+    } else if (x < 0 && y > 0){
+        quadrante_atual = 2;
+    } else if (x < 0 && y < 0){
+        quadrante_atual = 3;
+    } else if (x > 0 && y < 0){
+        quadrante_atual = 4;
     }
 
+    // Determinar quadrante destino (diagonal)
+    int destino = 0;
+    if (quadrante_atual == 1){
+        destino = 3;
+    } else if (quadrante_atual == 2){
+        destino = 4;
+    } else if (quadrante_atual == 3){
+        destino = 1;
+    } else if (quadrante_atual == 4){
+        destino = 2;
+    }
 
-int x_caminhado, y_caminhado;
+    // Passos necessários em cada eixo
+    int x_dest = 0;
+    int y_dest = 0;
+    if (destino == 1){
+        x_dest = 1;
+        y_dest = 1;
+    } else if (destino == 2){
+        x_dest = -1;
+        y_dest = 1;
+    } else if (destino == 3){
+        x_dest = -1;
+        y_dest = -1;
+    } else if (destino == 4){
+        x_dest = 1;
+        y_dest = -1;
+    }
 
-// quadrante 1 negado
-    if (quadrante1 == 1){
+    int px = abs(x - x_dest);
+    int py = abs(y - y_dest);
+
+    // Caminhada inválida: evitar o próprio quadrante ou o destino
+    if (c == quadrante_atual || c == destino){
         puts("caminhada invalida");
 
-//quadrante2 negado
-    } else if (quadrante2 == 1){
-        if (x < 0 && y > 0){
-            puts("caminhada invalida");
-        }else{
-                x_caminhado = abs(x) - 1;
-                y_caminhado = abs(y) - 1;
-                if (quadrante_atual == 3){
-                    printf("%d passos em x e %d passos em y", x_caminhado, y_caminhado);
-                } else if(quadrante_atual == 4){
-                    if(x_caminhado > y_caminhado){
-                        printf("%d passos em x e %d passos em y", x_caminhado, y_caminhado);
-                    } else{
-                        printf("%d passos em y e %d passos em x", y_caminhado, x_caminhado);
-                    }
-                } else if (quadrante_atual == 1){
-                    if(x_caminhado > y_caminhado){
-                        printf("%d passos em x e %d passos em y", x_caminhado, y_caminhado);
-                    } else{
-                        printf("%d passos em y e %d passos em x", y_caminhado, x_caminhado);
-                    }
-                }
-                
-        }
+    // Q1 → Q3, evitando Q2 (lado esquerdo): vai y primeiro (desce antes de ir pra esquerda)
+    } else if (quadrante_atual == 1 && destino == 3 && c == 2){
+        printf("%d passos em y e %d passos em x\n", py, px);
 
-// quadrante3 negado
+    // Q1 → Q3, evitando Q4 (lado direito): vai x primeiro (vai pra esquerda antes de descer)
+    } else if (quadrante_atual == 1 && destino == 3 && c == 4){
+        printf("%d passos em x e %d passos em y\n", px, py);
 
-    } else if (quadrante3 == 1){
-        if (x < 0 && y < 0){
+    // Q2 → Q4, evitando Q1 (lado direito em cima): vai y primeiro (desce antes de ir pra direita)
+    } else if (quadrante_atual == 2 && destino == 4 && c == 1){
+        printf("%d passos em y e %d passos em x\n", py, px);
+
+    // Q2 → Q4, evitando Q3 (lado esquerdo embaixo): vai x primeiro (vai pra direita antes de descer)
+    } else if (quadrante_atual == 2 && destino == 4 && c == 3){
+        printf("%d passos em x e %d passos em y\n", px, py);
+
+    // Q3 → Q1, evitando Q2 (lado esquerdo em cima): vai x primeiro (vai pra direita antes de subir)
+    } else if (quadrante_atual == 3 && destino == 1 && c == 2){
+        printf("%d passos em x e %d passos em y\n", px, py);
+
+    // Q3 → Q1, evitando Q4 (lado direito embaixo): vai y primeiro (sobe antes de ir pra direita)
+    } else if (quadrante_atual == 3 && destino == 1 && c == 4){
+        printf("%d passos em y e %d passos em x\n", py, px);
+
+    // Q4 → Q2, evitando Q1 (lado direito em cima): vai x primeiro (vai pra esquerda antes de subir)
+    } else if (quadrante_atual == 4 && destino == 2 && c == 1){
+        printf("%d passos em x e %d passos em y\n", px, py);
+
+    // Q4 → Q2, evitando Q3 (lado esquerdo embaixo): vai y primeiro (sobe antes de ir pra esquerda)
+    } else if (quadrante_atual == 4 && destino == 2 && c == 3){
+        printf("%d passos em y e %d passos em x\n", py, px);
+
+    } else {
         puts("caminhada invalida");
-        } else{
-            x_caminhado = abs(x) - 1;
-            y_caminhado = abs(y) - 1;
-            if (quadrante_atual == 2){
-                    if(x_caminhado > y_caminhado){
-                        if(x_caminhado > y_caminhado){
-                        printf("%d passos em x e %d passos em y", x_caminhado, y_caminhado);
-                        } else{
-                        printf("%d passos em y e %d passos em x", y_caminhado, x_caminhado);
-                        }
-                } else if(quadrante_atual == 4){
-                    if(x_caminhado > y_caminhado){
-                        printf("%d passos em x e %d passos em y", x_caminhado, y_caminhado);
-                    } else{
-                        printf("%d passos em y e %d passos em x", y_caminhado, x_caminhado);
-                    }
-                    }
-                } else if (quadrante_atual == 1){
-                    if(x_caminhado > y_caminhado){
-                        printf("%d passos em x e %d passos em y", x_caminhado, y_caminhado);
-                    } else{
-                        printf("%d passos em y e %d passos em x", y_caminhado, x_caminhado);
-                    }
-        }
     }
-//quadrante 4 negado
-    } else if (quadrante4 == 1){
-        if (x < 0 && y > 0){
-            puts("caminhada invalida");
-        } else{
-            x_caminhado = abs(x) - 1;
-            y_caminhado = abs(y) - 1;
-            if (quadrante_atual == 3){
-                    printf("%d passos em y e %d passos em x", y_caminhado, x_caminhado);
-                } else if(quadrante_atual == 2){
-                    if(x_caminhado > y_caminhado){
-                        printf("%d passos em x e %d passos em y", x_caminhado, y_caminhado);
-                    } else{
-                        printf("%d passos em y e %d passos em x", y_caminhado, x_caminhado);
-                    }
-                } else if (quadrante_atual == 1){
-                    if(x_caminhado > y_caminhado){
-                        printf("%d passos em x e %d passos em y", x_caminhado, y_caminhado);
-                    } else{
-                        printf("%d passos em y e %d passos em x", y_caminhado, x_caminhado);
-                    }
-                }
-        }
 
-    }
+    return 0;
 }
