@@ -1,0 +1,91 @@
+#include <stdio.h>
+#include <string.h>
+
+int main() {
+    int R;
+    scanf("%d", &R);
+
+    char S[65];
+    char F[100005];
+    char final[65];
+
+    char gigante[70005];
+    int tam_gigante = 0;
+
+    for (int caso = 0; caso < R; caso++) {
+        scanf("%s %s", S, F);
+
+        int n = strlen(S);
+        
+        unsigned long long valor = 0;
+        for (int i = 0; i < n; i++) {
+            if (S[i] == 'O') {
+                valor |= (1ULL << i);
+            }
+        }
+
+        // Como n <= 60, 2^n cabe em unsigned long long 
+        unsigned long long base = 1ULL << n;
+
+        // F mod 2^n mesmo que F seja muito grande
+        unsigned long long flashes_mod = 0;
+        for (int i = 0; F[i] != '\0'; i++) {
+            flashes_mod = (flashes_mod * 10 + (F[i] - '0')) % base;
+        }
+
+        // Estado final ap�s F flashes
+        valor = (valor + flashes_mod) % base;
+
+        // Reconstr�i a string final
+        for (int i = 0; i < n; i++) {
+            if ((valor >> i) & 1ULL) {
+                final[i] = 'O';
+            } else {
+                final[i] = 'X';
+            }
+        }
+        final[n] = '\0';
+
+        // Imprime a configura��o final deste caso
+        printf("%s\n", final);
+
+        // Monta a string gigante
+        if (caso == 0) {
+            for (int i = 0; i < n; i++) {
+                gigante[tam_gigante++] = final[i];
+            }
+            gigante[tam_gigante] = '\0';
+        } else {
+            char ultimo = gigante[tam_gigante - 1];
+            char primeiro = final[0];
+            char ornamento;
+
+            if (tam_gigante % 2 == 0) {
+                if (ultimo == primeiro) {
+                    ornamento = '@';
+                } else {
+                    ornamento = '$';
+                }
+            } else {
+                if (ultimo == primeiro) {
+                    ornamento = '#';
+                } else {
+                    ornamento = '%';
+                }
+            }
+
+            gigante[tam_gigante++] = ornamento;
+
+            for (int i = 0; i < n; i++) {
+                gigante[tam_gigante++] = final[i];
+            }
+
+            gigante[tam_gigante] = '\0';
+        }
+    }
+
+    // String final juntando todos os casos
+    printf("%s\n", gigante);
+
+    return 0;
+}
