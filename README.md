@@ -7,4 +7,4 @@ Atividades realizadas na cadeira de introdução a programação imperativa
 
 ## Na lista 2, foi utilizada a ajuda de IA para raciocínios e fórmulas matemáticas e dúvidas de sintaxe
 
-##Na lista 3 foi utilizada IA para auxílio com sintaxe e operações binárias na questão 4
+## Na lista 3 foi utilizada IA para auxílio com sintaxe e operações binárias na questão 4
