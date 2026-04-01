@@ -49,7 +49,7 @@ int main() {
         }
     }
 
-    // X = coluna, Y = linha (conforme o enunciado)
+    // X = coluna, Y = linha
     printf("Coordenada X: %d, Y: %d ", colunaDoMaior, linhaDoMaior);
 
     return 0;
