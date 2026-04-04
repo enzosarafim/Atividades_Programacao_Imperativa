@@ -1,56 +1,52 @@
 #include <stdio.h>
 
 int main() {
-    // Matriz 4x4 que conta quantas vezes Pedro visitou cada posição
-    // = {0} garante que todos os valores começam em zero
-    int cidade[4][4] = {0};
+    // Inicializa a matriz 4x4 com zeros (representando os locais)
+    int matriz[4][4] = {0}; 
+    
+    // Posição inicial no canto superior esquerdo (X = coluna, Y = linha)
+    int x = 0, y = 0;
+    char mov;
 
-    // Pedro sempre começa no canto superior esquerdo
-    int linhaAtual = 0;
-    int colunaAtual = 0;
+    // Laço para ler os 20 movimentos (conforme a descrição)
+    for (int i = 0; i < 20; i++) {
+        // O espaço antes do %c é importante para ignorar espaços em branco na entrada
+        scanf(" %c", &mov); 
+        
+        // Atualiza a posição de acordo com a direção
+        if (mov == 'c') {        // Cima
+            y--;
+        } else if (mov == 'b') { // Baixo
+            y++;
+        } else if (mov == 'e') { // Esquerda
+            x--;
+        } else if (mov == 'd') { // Direita
+            x++;
+        }
 
-    // Marca a posição inicial como visitada
-    cidade[linhaAtual][colunaAtual]++;
-
-    // Lê e processa cada um dos 20 movimentos
-    char movimento;
-    for (int passo = 0; passo < 20; passo++) {
-
-        // O espaço antes de %c descarta enters e espaços entre os caracteres
-        scanf(" %c", &movimento);
-
-        // Move Pedro conforme o caractere lido
-        // Sempre verifica se não vai sair dos limites da matriz (0 a 3)
-        if (movimento == 'c' && linhaAtual > 0)
-            linhaAtual--;         // cima = diminui linha
-        else if (movimento == 'b' && linhaAtual < 3)
-            linhaAtual++;         // baixo = aumenta linha
-        else if (movimento == 'e' && colunaAtual > 0)
-            colunaAtual--;        // esquerda = diminui coluna
-        else if (movimento == 'd' && colunaAtual < 3)
-            colunaAtual++;        // direita = aumenta coluna
-
-        // Marca a nova posição como visitada
-        cidade[linhaAtual][colunaAtual]++;
+        // Adiciona +1 no local visitado, garantindo que não ultrapasse os limites da matriz 4x4
+        if (x >= 0 && x < 4 && y >= 0 && y < 4) {
+            matriz[y][x]++;
+        }
     }
 
-    // Procura a posição mais visitada (onde Manuela estará esperando)
-    int maiorValor   = cidade[0][0];
-    int linhaDoMaior  = 0;
-    int colunaDoMaior = 0;
+    // Variáveis para descobrir qual posição teve mais visitas
+    int max_visitas = -1;
+    int max_x = 0, max_y = 0;
 
-    for (int linha = 0; linha < 4; linha++) {
-        for (int coluna = 0; coluna < 4; coluna++) {
-            if (cidade[linha][coluna] > maiorValor) {
-                maiorValor    = cidade[linha][coluna];
-                linhaDoMaior  = linha;
-                colunaDoMaior = coluna;
+    // Percorre a matriz inteira
+    for (int i = 0; i < 4; i++) {       // i = Linhas (Eixo Y)
+        for (int j = 0; j < 4; j++) {   // j = Colunas (Eixo X)
+            if (matriz[i][j] > max_visitas) {
+                max_visitas = matriz[i][j];
+                max_y = i;  // Salva a linha do maior valor
+                max_x = j;  // Salva a coluna do maior valor
             }
         }
     }
 
-    // X = coluna, Y = linha
-    printf("Coordenada X: %d, Y: %d ", colunaDoMaior, linhaDoMaior);
+
+    printf("Coordenada X:%d, Y:%d\n", max_x, max_y);
 
     return 0;
 }
