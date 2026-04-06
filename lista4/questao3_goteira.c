@@ -80,12 +80,5 @@ int main() {
         goteira(inicio_x, inicio_y);
     }
 
-    // Imprimir o resultado final e liberar a memória
-    for (int i = 0; i < m; i++) {
-        printf("%s\n", parede[i]);
-        free(parede[i]); 
-    }
-    free(parede);
-
     return 0;
 }
