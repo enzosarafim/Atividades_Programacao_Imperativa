@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-// Função auxiliar para calcular a soma dos dígitos
+// Função para calcular a soma dos dígitos
 int calcular_soma_dos_digitos(int numero) {
     int soma_total = 0;
     while (numero > 0) {
@@ -23,19 +23,19 @@ int main() {
         }
     }
 
-    // Vetores para guardar o percurso em espiral
+    // vetores para a espiral
     int valores_espiral[400];
     int linhas_espiral[400];
     int colunas_espiral[400];
     int elementos_visitados = 0;
 
-    // Variáveis que controlam as fronteiras do nosso percurso
+    // Fronteiras
     int limite_superior = 0;
     int limite_inferior = tamanho_matriz - 1;
     int limite_esquerdo = 0;
     int limite_direito = tamanho_matriz - 1;
 
-    // Gerando o percurso espiral
+    //percurso espiral
     while (limite_superior <= limite_inferior && limite_esquerdo <= limite_direito) {
         
         // Percorrendo a borda superior (da esquerda para a direita)
@@ -56,7 +56,7 @@ int main() {
         }
         limite_direito--;
 
-        // Percorrendo a borda inferior (da direita para a esquerda)
+        // Percorrendo a borda de baixo(da direita para a esquerda)
         if (limite_superior <= limite_inferior) {
             for (int coluna = limite_direito; coluna >= limite_esquerdo; coluna--) {
                 linhas_espiral[elementos_visitados] = limite_inferior;
@@ -79,15 +79,14 @@ int main() {
         }
     }
 
-    // Variáveis para rastrear a maior sequência válida encontrada
+    // Variáveis para rastrear a maior sequência válida
     int tamanho_maior_sequencia = 0;
     int indice_inicio_maior = 0;
 
-    // Variáveis para rastrear a sequência atual que estamos analisando
+    // Variáveis para rastrear a sequência atual
     int tamanho_sequencia_atual = 1;
     int indice_inicio_atual = 0;
 
-    // Buscando a maior subsequência contígua
     for (int i = 1; i < elementos_visitados; i++) {
         int numero_anterior = valores_espiral[i - 1];
         int numero_atual = valores_espiral[i];
@@ -95,7 +94,7 @@ int main() {
         int soma_anterior = calcular_soma_dos_digitos(numero_anterior);
         int soma_atual = calcular_soma_dos_digitos(numero_atual);
 
-        // Condição de par válido: mesma soma de dígitos E o anterior ser estritamente maior
+        // mesma soma de dígitos E o anterior ser estritamente maior
         if ((soma_anterior == soma_atual) && (numero_anterior > numero_atual)) {
             tamanho_sequencia_atual++;
         } else {
@@ -116,7 +115,6 @@ int main() {
         indice_inicio_maior = indice_inicio_atual;
     }
 
-    // Imprimindo a saída no formato exigido
     if (tamanho_maior_sequencia >= 2) {
         printf("%d\n", tamanho_maior_sequencia);
         for (int k = 0; k < tamanho_maior_sequencia; k++) {
