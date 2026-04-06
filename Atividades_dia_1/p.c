@@ -16,7 +16,6 @@ int main() {
 
     int matriz_codigos[20][20];
     
-    // Leitura da matriz
     for (int linha = 0; linha < tamanho_matriz; linha++) {
         for (int coluna = 0; coluna < tamanho_matriz; coluna++) {
             scanf("%d", &matriz_codigos[linha][coluna]);
@@ -79,11 +78,11 @@ int main() {
         }
     }
 
-    // Variáveis para rastrear a maior sequência válida
+    // Variáveis para a maior sequência válida
     int tamanho_maior_sequencia = 0;
     int indice_inicio_maior = 0;
 
-    // Variáveis para rastrear a sequência atual
+    // Variáveis para a sequência atual
     int tamanho_sequencia_atual = 1;
     int indice_inicio_atual = 0;
 
@@ -98,7 +97,7 @@ int main() {
         if ((soma_anterior == soma_atual) && (numero_anterior > numero_atual)) {
             tamanho_sequencia_atual++;
         } else {
-            // A sequência quebrou, vamos verificar se a atual é a maior até agora
+            // A sequência quebrou, verificar se a atual é a maior até agora
             if (tamanho_sequencia_atual > tamanho_maior_sequencia) {
                 tamanho_maior_sequencia = tamanho_sequencia_atual;
                 indice_inicio_maior = indice_inicio_atual;
